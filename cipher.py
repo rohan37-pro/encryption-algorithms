@@ -7,7 +7,7 @@ while True:
         text = input("enter a text to encrypt : ")
         #then it takes the shift value which is used just to make it harder for someone to guess the actual shift
         shift = int(input("Enter the shift value : "))
-        #empty string to store the encypted characters in the for loop below
+        #empty string to store the encrypted characters in the for loop below
         new_text = ''
         for i in text:
             #ord to convert a character into its unicode code
