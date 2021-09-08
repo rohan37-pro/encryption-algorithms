@@ -1,2 +1,2 @@
-# crypetography
-ceaser cipher algorith
+# cryptography
+ceaser cipher algorithm
