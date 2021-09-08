@@ -1,2 +1,3 @@
 # cryptography
-ceaser cipher algorithm
+This program is based on caesar cipher algorithm.
+
