@@ -1,4 +1,3 @@
-
 ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 alpha = "abcdefghijklmnopqrstuvwxyz"
 num = "0123456789"
