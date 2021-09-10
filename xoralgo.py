@@ -23,7 +23,7 @@ while True:
 		with open(f"{os.getcwd()}/encrypt.txt",'w') as file:
 			file.write(encrypted_text)
 			
-		encrypted_text = encrypted_text.encode('hex')
+		encrypted_text = encrypted_text.encode('ascii')
 		print(f"encrypted text is : {encrypted_text}")
 		print("this data is just a raw data,\n and not the actuall cipher-text.\ncheck encrypted.txt to see actuall encrypted-text")
 
