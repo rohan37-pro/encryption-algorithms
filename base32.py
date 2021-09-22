@@ -36,14 +36,12 @@ class base32_encryption:
 		#step2 extened it with equal signs
 		cipher += self.equals[5-(len_bytes%5)] * '='
 		return cipher
-
-		
+	
 	def padding(lis): 
 		pad_len = 5-(len(lis)%5)
 		for i in range(pad_len):
 			lis.append('00000000')
 		return lis
-
 
 	def group(lis):
 		byte_str = ''.join(lis)
@@ -51,7 +49,6 @@ class base32_encryption:
 		for i in range(len(byte_str)//5):
 			bit5s.append(byte_str[i*5:5*(i+1)])
 		return bit5s
-
 
 
 class base32_decryption:
@@ -96,7 +93,6 @@ class base32_decryption:
 			if i == '=':
 				bit_list.append('00000')
 		return bit_list
-
 
 	def binary2decimal(binary):
 		decimal = 0
