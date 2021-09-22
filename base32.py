@@ -57,13 +57,68 @@ class base32_encryption:
 class base32_decryption:
 
 	def __init__(self):
-		pass
+		base32_char = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567"
+		self.base32 = {}
+		for i in range(32):
+			bin_ = bin(i).replace('0b','')
+			self.base32[base32_char[i]] = '0'*(5-len(bin_)) + bin_
+		self.equals = {0:0,6:4,4:3,3:2,1:1}
+
+	def decrypt(self,cipher):
+		#step1 count '=' characters
+		count = cipher.count('=')
+		self.pad_char = self.equals[count]
+
+		#step2 append each 5bits in a list and form a byte string
+		bit_list = self.ungroup(cipher)
+		byte_string = ''.join(bit_list)
+		#step3 undo padding and extract real message
+		msg  = self.meassage(byte_string)
+
+		return msg
 
 
+	def meassage(self,string):
+		if self.pad_char != 0:
+			string = string[:-(self.pad_char*8)]
+		text = ''
+		for i in range(len(string)//8):
+			num = base32_decryption.binary2decimal(string[i*8 : 8*(i+1)])
+			text += chr(num)
+		return text
 
 
-if __name__ == '__main__':
-	text = input('enter text : ')
-	base32 = base32_encryption()
-	cipher = base32.encrypt(text)
-	print(f"encrypted text is \n{cipher}")
+	def ungroup(self,string):
+		bit_list = []
+		for i in string:
+			if i != '=':
+				bit_list.append(self.base32[i])
+			if i == '=':
+				bit_list.append('00000')
+		return bit_list
+
+
+	def binary2decimal(binary):
+		decimal = 0
+		pow = 0
+		for i in range(-1,-len(binary)-1,-1):
+			decimal += int(binary[i])*(2**pow)
+			pow+=1
+		return decimal
+
+
+print("type 'e' to encrypt\ntype 'd' to decrypt\ntype 'q' to quit")
+while True:
+	mode = input("mode : -")
+	if mode == 'e':
+		text = input('enter text : ')
+		base32 = base32_encryption()
+		cipher = base32.encrypt(text)
+		print(f"encrypted text is \n{cipher}")
+	if mode == 'd':
+		cipher = input("enter cipher : ")
+		base32 = base32_decryption()
+		msg = base32.decrypt(cipher)
+		print(f"decrypted text is \n{msg}")
+	if mode == 'q':
+		break
