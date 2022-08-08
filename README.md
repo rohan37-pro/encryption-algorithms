@@ -4,4 +4,4 @@ some basic encrytion algorithms
 2. base64 encoding (base64.py)
 3. xor algorithm (xoralgo.py)
 4. base32 algorithm (base32.py)
-5. vignere cipher (vignere_cipher.py)
+5. vigenere cipher (vigenere_cipher.py)
