@@ -47,6 +47,25 @@ void encrypt(char plain_text[], char key[], char cipher[]){
 }
 
 
+void decrypt(char cipher[], char key[], char message[]){
+	int cipher2decimal[4096], key2decimal[30];
+	uppercase(key);
+	int key_len = derefer_text(key, key2decimal);
+	int cipher_len = derefer_text(cipher, cipher2decimal);
+
+	int i;
+	for (i=0; i<cipher_len; i++){
+		int index;
+		index = cipher2decimal[i] - key2decimal[i % (key_len)];
+		if (index < 0){
+			index += 26;
+		}
+		message[i] = alphabets[index];
+	}
+	message[i+1] = '\0';
+}
+
+
 
 int main(){
 	for (int i=0; i<26; i++){
@@ -69,6 +88,15 @@ int main(){
 			scanf("%s",&key);
 			encrypt(msg, key, cipher);
 			printf("cipher : %s\n\n",cipher);
+		}
+		if (choise=='d' || choise=='D'){
+			char msg[4096], key[30], cipher[4096];
+			printf("enter your cipher : ");
+			scanf("%s",&cipher);
+			printf("key to decrypt : ");
+			scanf("%s",&key);
+			decrypt(cipher, key, msg);
+			printf("message : %s\n\n",msg);
 		}
 	}
 

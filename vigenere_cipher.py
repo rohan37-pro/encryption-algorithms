@@ -16,7 +16,7 @@ class vigenere:
 	def encrypt(self, plain_text, key):
 		#if text hash spaces and lowercases then replace it
 		plain_text = plain_text.replace(" ","").upper()
-		key = key.strip(" ").upper()
+		key = key.strip(" ").replace(' ','').upper()
 		deref = vigenere().dereference(plain_text)
 		derefer_key = vigenere().dereference(key)
 		row_cipher = []
@@ -37,8 +37,8 @@ class vigenere:
 
 	#decryption function
 	def decrypt(self, cipher, key):
-		cipher = cipher.strip(' ').upper()
-		key = key.strip(' ').upper()
+		cipher = cipher.strip(' ').replace(' ','').upper()
+		key = key.strip(' ').replace(' ','').upper()
 		deref = vigenere().dereference(cipher)
 		derefer_key = vigenere().dereference(key)
 		row_text = []
