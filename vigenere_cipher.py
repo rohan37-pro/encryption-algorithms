@@ -16,23 +16,22 @@ class vigenere:
 
 	#main encryption algorithm
 	def encrypt(self, plain_text, key):
-		#if text hash spaces and lowercases then replace it
-		plain_text = plain_text.replace(" ","").upper()
-		key = key.strip(" ").replace(' ','').upper()
-		deref = vigenere().dereference(plain_text)
-		derefer_key = vigenere().dereference(key)
-		row_cipher = []
-
+		#formating and striping texts and keys
+		plain_text = plain_text.strip()
+		key = key.strip().lower()
+		cipher = ""
+		
 		#adding plain text and key
-		for i in range(len(deref)):	
-			row_cipher.append((deref[i] + derefer_key[i % len(key)]) % 26 )
-
-		#getting cipher from the list of cipher values
-		cipher= ""
-		for i in row_cipher:
-			position = list(self.reference_dic.values()).index(i)
-			char = list(self.reference_dic.keys())[position]
-			cipher += char
+		key_index = 0
+		for p in plain_text:
+			if p.islower():	
+				cipher+= string.ascii_lowercase[(self.lowercase_ref[p] + self.lowercase_ref[ key[key_index % len(key)] ]) % 26 ]
+				key_index+=1
+			elif p.isupper():	
+				cipher+= string.ascii_uppercase[(self.uppercase_ref[p] + self.lowercase_ref[ key[key_index % len(key)] ]) % 26 ]
+				key_index+=1
+			else:
+				cipher += p
 
 		return cipher
 
@@ -77,7 +76,7 @@ if __name__ == "__main__":
 			key = input("enter your key : ")
 			obj = vigenere()
 			cipher = obj.encrypt(message, key)
-			print(f"{cipher}\n")
+			print(f"\n{cipher}\n\n")
 		if control == "d" or control == "D":
 			cipher = input("enter the cipher : ")
 			key = input("enter the key : ")
