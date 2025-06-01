@@ -6,10 +6,12 @@ class vigenere:
 
 	def __init__(self):
 		#a reference dictionery to get the reference for a correspoding alphabet
-		self.str_upper = string.ascii_uppercase
-		self.reference_dic = {}
-		for i in range(26):
-			self.reference_dic[self.str_upper[i]] = i
+		self.uppercase_ref = {}
+		self.lowercase_ref = {}
+		for index, char in enumerate(string.ascii_uppercase):
+			self.uppercase_ref[char] = index
+		for index, char in enumerate(string.ascii_lowercase):
+			self.lowercase_ref[char] = index
 
 
 	#main encryption algorithm
@@ -37,36 +39,42 @@ class vigenere:
 
 	#decryption function
 	def decrypt(self, cipher, key):
-		cipher = cipher.strip(' ').replace(' ','').upper()
-		key = key.strip(' ').replace(' ','').upper()
-		deref = vigenere().dereference(cipher)
-		derefer_key = vigenere().dereference(key)
-		row_text = []
+		message = ""
+		cipher = cipher.strip()
+		key = key.strip().lower()
+		if not key.isalpha():
+			print("only letters are allowed in the key")
+			print("exiting...")
+			sys.exit()
+		key_len = len(key)
 
 		#substructing cipher by the key
-		for i in range(len(deref)):
-			row_text.append((deref[i] - derefer_key[i % len(key)]) % 26 )
-
-		#calculating real message from the list of number
-		message = ""
-		for i in row_text:
-			position = list(self.reference_dic.values()).index(i)
-			char = list(self.reference_dic.keys())[position]
-			message += char
+		key_index = 0
+		for i,c in enumerate(cipher):
+			if c.islower():
+				message+= string.ascii_lowercase[(self.lowercase_ref[c] - self.lowercase_ref[key[ key_index%key_len ]]) % 26 ]
+				key_index+=1
+			elif c.isupper():
+				message+= string.ascii_uppercase[(self.uppercase_ref[c] - self.lowercase_ref[key[ key_index%key_len ]]) % 26 ]
+				key_index+=1
+			else:
+				message+= c
 
 		return message
 
 
 
 	#to get alphabet from the reference number
-	def dereference(self, text):
+	def dereference(self, text, name):
 		derefer_str = []
+		index = 0
 		for i in text:
-			if i not in string.ascii_uppercase:
-				print(f"you have entered an invalid value '{i}' for vigenere cipher")
-				print("No SPACE, NUMBERS and SPECIAL CHARACTERs are ALLOWED @!!!!!!")
-				sys.exit()
-			derefer_str.append(self.reference_dic[i])
+			if i not in string.ascii_letters:
+				# print(f"skipping unallowed character {i} it anyway")
+				self.extra_characters[name][index] = i
+			elif i in string.ascii_lowercase:
+				derefer_str.append(self.reference_dic[i])
+			index+=1
 
 		return derefer_str
 
@@ -82,12 +90,14 @@ if __name__ == "__main__":
 			message = input("enter your message : ")
 			message = message.strip(" ")
 			key = input("enter your key : ")
-			cipher = vigenere().encrypt(message, key)
+			obj = vigenere()
+			cipher = obj.encrypt(message, key)
 			print(f"{cipher}\n")
 		if control == "d" or control == "D":
 			cipher = input("enter the cipher : ")
 			key = input("enter the key : ")
-			message = vigenere().decrypt(cipher, key)
-			print(f"{message}\n")
+			obj = vigenere()
+			message = obj.decrypt(cipher, key)
+			print(f"\n{message}\n\n")
 
 
