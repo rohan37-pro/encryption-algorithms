@@ -64,21 +64,6 @@ class vigenere:
 
 
 
-	#to get alphabet from the reference number
-	def dereference(self, text, name):
-		derefer_str = []
-		index = 0
-		for i in text:
-			if i not in string.ascii_letters:
-				# print(f"skipping unallowed character {i} it anyway")
-				self.extra_characters[name][index] = i
-			elif i in string.ascii_lowercase:
-				derefer_str.append(self.reference_dic[i])
-			index+=1
-
-		return derefer_str
-
-
 
 #calling functions and taking inputs
 if __name__ == "__main__":
